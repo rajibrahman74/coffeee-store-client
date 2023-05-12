@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const CoffeeCard = ({ coffee }) => {
+const CoffeeCard = ({ coffee, coffees, setCoffees }) => {
   const { _id, name, quantity, supplier, taste, photo } = coffee;
 
   const handleDelete = (_id) => {
@@ -26,6 +26,8 @@ const CoffeeCard = ({ coffee }) => {
             console.log(data);
             if (data.deletedCount > 0) {
               Swal.fire("Deleted!", "Your coffee has been deleted.", "success");
+              const remaining = coffees.filter((coffee) => coffee._id !== _id);
+              setCoffees(remaining);
             }
           });
       }
@@ -47,7 +49,9 @@ const CoffeeCard = ({ coffee }) => {
         <button className="btn bg-[#ab8f6a] border-0 hover:bg-[#827360e4]">
           View
         </button>
-        <Link to={`updatecoffee/:${_id}`}></Link>
+        <Link to={`updatecoffee/${_id}`}>
+          <button className="btn">Edit</button>
+        </Link>
         <button
           onClick={() => handleDelete(_id)}
           className="btn bg-red-600 hover:bg-red-700 border-0"
@@ -68,6 +72,9 @@ CoffeeCard.propTypes = {
     taste: PropTypes.string.isRequired,
     photo: PropTypes.string.isRequired,
   }).isRequired,
+  coffees: PropTypes.array.isRequired,
+  setCoffees: PropTypes.func.isRequired,
+  filter: PropTypes.string.isRequired,
 };
 
 export default CoffeeCard;

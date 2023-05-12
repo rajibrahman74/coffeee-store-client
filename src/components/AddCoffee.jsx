@@ -34,12 +34,14 @@ const AddCoffee = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        Swal.fire({
-          title: "Success!",
-          text: "New coffee added successfully",
-          icon: "success",
-          confirmButtonText: "Cool",
-        });
+        if (data.insertedId) {
+          Swal.fire({
+            title: "Success!",
+            text: "New coffee added successfully",
+            icon: "success",
+            confirmButtonText: "Cool",
+          });
+        }
       });
     form.reset();
   };
